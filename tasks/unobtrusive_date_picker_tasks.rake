@@ -6,8 +6,18 @@ namespace :unobtrusive_date_picker do
     dest = File.join(Rails.root.to_s, 'public')
 
     %w(javascripts stylesheets).each do |folder|
-      Dir[File.join(orig, folder, '*')].each {|file| FileUtils.cp_r file, File.join(dest, folder, File.basename(file))}
+      Dir[File.join(orig, folder, '**/*')].each do |file|
+        if File.directory? file
+          dir = File.join(dest, folder, File.basename(file))
+          FileUtils.mkdir dir unless File.exists? dir
+        else
+          FileUtils.cp file, File.join(dest, file.gsub(orig, ''))
+        end
+      end
     end
-    FileUtils.cp_r File.join(orig, 'images/.'), File.join(dest, 'images', 'datepicker')
+
+    images_dir = File.join(dest, 'images', 'datepicker')
+    FileUtils.mkdir dir unless File.exists? images_dir
+    FileUtils.cp Dir[File.join(orig, 'images/*')], images_dir
   end
 end
