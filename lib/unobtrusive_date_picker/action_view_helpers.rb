@@ -14,9 +14,10 @@ module UnobtrusiveDatePicker
       def date_picker_js
         @options[:include_position] = false
         id = input_id_from_type(nil)
+        js_options = (@options[:date_picker_options] || {}).merge(:formElements => ActiveSupport::OrderedHash["#{id}_1i", "Y", "#{id}_2i", "n", "#{id}_3i", "j"])
         %|if (typeof datePickerController != 'undefined') {
   datePickerController.destroyDatePicker("#{id}_1i");
-  datePickerController.createDatePicker({formElements: {"#{id}_1i": "Y", "#{id}_2i": "n", "#{id}_3i": "j"}});
+  datePickerController.createDatePicker(#{js_options.to_json});
 }|
       end
     end
