@@ -1,0 +1,74 @@
+
+= Unobtrusive Date-Picker Widget Plugin
+
+This is a helper for creating a date or date-time picker that uses the 
+{Unobtrusive Date-Picker Widgit}[http://frequency-decoder.com/2009/09/09/unobtrusive-date-picker-widget-v5]
+to add a clickable calendar image that will bring up a calendar picker if javascript is available.
+
+The main form helper method is <tt>date_picker</tt>.
+
+== Usage
+
+==== Example:
+   <% form_for :article, :url => { :action => @form_action, :id => @article } do |f| %>
+   <fieldset>
+      ...
+      <label>Date: <%= f.datetime_select :date %></label><br />
+      <%= f.date_picker :date %>
+      ...
+   </fieldset>
+   <% end %>
+
+==== Produces (Current date when output: 12/6/07):
+   <form action="/form/create" method="post">
+      <fieldset>
+         
+         <label>Date: 
+   	      <select id="article_date_3i" name="article[date(3i)]">
+               <option value="1">1</option>
+               ...
+               <option value="31">31</option>
+            </select>
+            <select id="article_date_2i" name="article[date(2i)]">
+               <option value="1">January</option>
+               ...
+               <option value="12" selected="selected">December</option>
+            </select>
+            <select id="article_date_1i" name="article[date(1i)]" class="split-date">
+               <option value="2002">2002</option>
+               ...
+               <option value="2012">2012</option>
+            </select>
+             &nbsp; 
+            <select id="article_date_4i" name="article[date(4i)]">
+               <option value="1">1</option>
+               ...
+               <option value="12">12</option>
+            </select>
+             : 
+            <select id="article_date_5i" name="article[date(5i)]">
+               <option value="00">00</option>
+               ...
+               <option value="59">59</option>
+            </select>
+         </label><br />
+         <script type="text/javascript">
+         //<![CDATA[
+         if (typeof datePickerController != 'undefined') {
+           datePickerController.destroyDatePicker("article_date_1i");
+           datePickerController.createDatePicker({formElements: {"article_date_1i": "Y", "article_date_2i": "n", "article_date_3i": "j"}});
+         }
+         //]]>
+         </script>
+            
+      </fieldset>
+   </form>
+
+
+
+=== LICENSE
+
+See MIT-LICENSE file for copyright and licensing information for this plugin.
+
+Unobtrusive Date-Picker Widgit is provided under the Creative Commons Attribution-ShareAlike 2.5 license (http://creativecommons.org/licenses/by-sa/2.5/) by frequency-decoder.com
+
