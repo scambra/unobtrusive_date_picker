@@ -24,7 +24,7 @@ module UnobtrusiveDatePicker
 
     module InstanceTag
       def to_date_picker_js(options = {}, html_options = {})
-        datetime_selector(options, html_options).date_picker_js.html_safe!
+        datetime_selector(options, html_options).date_picker_js.html_safe
       end
     end
 
