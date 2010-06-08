@@ -17,7 +17,7 @@ namespace :unobtrusive_date_picker do
     end
 
     images_dir = File.join(dest, 'images', 'datepicker')
-    FileUtils.mkdir dir unless File.exists? images_dir
+    FileUtils.mkdir images_dir unless File.exists? images_dir
     FileUtils.cp Dir[File.join(orig, 'images/*')], images_dir
   end
 end
