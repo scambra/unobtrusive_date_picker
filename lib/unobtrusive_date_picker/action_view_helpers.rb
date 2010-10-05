@@ -11,12 +11,15 @@ module UnobtrusiveDatePicker
     end
 
     module DateTimeSelector
+      DATE_PICKER_FORMAT = {:year => 'Y', :month => 'n', :day => 'j'}
       def date_picker_js
         @options[:include_position] = false
         id = input_id_from_type(nil)
-        js_options = (@options[:date_picker_options] || {}).merge(:formElements => ActiveSupport::OrderedHash["#{id}_1i", "Y", "#{id}_2i", "n", "#{id}_3i", "j"])
+        date_order = I18n.t('date.order')
+        formElements = date_order.reverse.collect! {|field| ["#{id}_#{::ActionView::Helpers::DateTimeSelector::POSITION[field]}i", DATE_PICKER_FORMAT[field]]}.flatten!
+        js_options = (@options[:date_picker_options] || {}).merge(:formElements => ActiveSupport::OrderedHash[*formElements])
         %|if (typeof datePickerController != 'undefined') {
-  datePickerController.destroyDatePicker("#{id}_1i");
+  datePickerController.destroyDatePicker("#{id}_#{::ActionView::Helpers::DateTimeSelector::POSITION[date_order.last]}i");
   datePickerController.createDatePicker(#{js_options.to_json});
 }|
       end
